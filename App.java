@@ -25,5 +25,21 @@ class App {
             System.out.println("Invalid option :(");
             printOptions();
         }
+
+        if (args.length > 0 && args[0].equals("new-list")) {
+            if (args.length != 2) {
+                System.out.println("Please enter the task list name :)");
+            }
+
+            // Creating a task list
+            // 1. Get the current user 
+            System.out.println(System.getProperty("user.id"));
+            // 2. Create the task list
+            // 3. Convert the task list into a json file for storage
+            // 4. Create a folder in the user's home directory for tasklist-cli
+            // 5. Store the task list in the tasklist-cli directory in the user's home directory
+            // 6. Make sure that only this users can access the task list, that is only this user has rw rights to the file
+            // 7. Add metadata to the file
+        }
     } 
 }

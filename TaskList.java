@@ -4,7 +4,13 @@ public class TaskList {
     private ArrayList<Task> [] tasks;
     private int userId;
     private String userName;
-    private String alias;
+    private String name;
+
+    public TaskList(int userId, String userName, String name) {
+        this.userId = userId;
+        this.userName = userName;
+        this.name = name;
+    }
 
     public ArrayList<Task>[] getTasks() {
         return tasks;
@@ -15,7 +21,10 @@ public class TaskList {
     public String getUserName() {
         return userName;
     }
-    public String getAlias() {
-        return alias;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }
