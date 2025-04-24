@@ -1,6 +1,7 @@
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.io.File;
 
 class App {
     private static ArrayList<String> expectedArgs = new ArrayList<String>(Arrays.asList("new-list", "task-list", "delete-task"));
@@ -33,9 +34,24 @@ class App {
 
             // Creating a task list
             // 1. Get the current user 
-            System.out.println(System.getProperty("user.id"));
+            String userName = System.getProperty("user.name");
+            String userId = Linux.getUserId();
+            String listName = args[1];
+            Linux.getUserId();
             // 2. Create the task list
+            TaskList newList  = new TaskList(userId, userName, listName);
             // 3. Convert the task list into a json file for storage
+                // a. Create the task-list folder if it does not exist
+            String homeDirectory = System.getProperty("user.home");
+            File taskListFolder = new File(homeDirectory, "task-list");
+
+            if (!taskListFolder.exists()) {
+                taskListFolder.mkdir();
+            }
+                // b. Create the json file and give it the file name
+                // c. Make sure that the current user is the owner of the file by checking the id and user
+                // d. Save the file
+                // e. Display a success message for the user
             // 4. Create a folder in the user's home directory for tasklist-cli
             // 5. Store the task list in the tasklist-cli directory in the user's home directory
             // 6. Make sure that only this users can access the task list, that is only this user has rw rights to the file

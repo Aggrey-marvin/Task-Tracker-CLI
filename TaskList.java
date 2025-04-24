@@ -2,11 +2,11 @@ import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> [] tasks;
-    private int userId;
+    private String userId;
     private String userName;
     private String name;
 
-    public TaskList(int userId, String userName, String name) {
+    public TaskList(String userId, String userName, String name) {
         this.userId = userId;
         this.userName = userName;
         this.name = name;
@@ -15,7 +15,7 @@ public class TaskList {
     public ArrayList<Task>[] getTasks() {
         return tasks;
     }
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
     public String getUserName() {
