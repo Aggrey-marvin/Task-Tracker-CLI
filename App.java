@@ -78,19 +78,19 @@ class App {
                     UserPrincipal user = file.getOwner();
 
                     if (user.getName().equals(newList.getUserName())) {
-                        System.out.println("The task list " + newList.getName() + " has been created successfully");
+                        int result = Linux.removeOtherReadRights(fileName);
+                        if (result == 0) {
+                            System.out.println("The task list " + newList.getName() + " has been created successfully");
+                        }
                     } else {
                         System.out.println("Change the user of the file");
+                        // This maybe added a later on, fingers crossed for now, hope it never happens :)
                     }
                 
                 } catch (IOException exception) {
                     System.out.println(exception);
                 }
 
-                    // d. Save the file
-                    // e. Display a success message for the user
-                // 4. Create a folder in the user's home directory for tasklist-cli
-                // 5. Store the task list in the tasklist-cli directory in the user's home directory
                 // 6. Make sure that only this users can access the task list, that is only this user has rw rights to the file
                 // 7. Add metadata to the file
             }

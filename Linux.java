@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Linux {
@@ -22,6 +23,21 @@ public class Linux {
         } catch (Exception e) {
             e.printStackTrace();
             return "exception";
+        }
+    }
+
+    public static int removeOtherReadRights(String filePath) {
+        ProcessBuilder processBuilder = new ProcessBuilder("chmod", "o-r", filePath);
+        try {
+            Process process = processBuilder.start();
+            int exitCode = process.waitFor();
+            return exitCode;
+        } catch (IOException exception) {
+            System.out.println(exception);
+            return -1;
+        } catch (InterruptedException exception) {
+            System.out.println(exception);
+            return -1;
         }
     }
 }
