@@ -13,7 +13,8 @@ import java.util.Scanner;
 class App {
     private static ArrayList<String> expectedArgs = new ArrayList<String>(Arrays.asList("new-list", 
                                                                                         "task-list", 
-                                                                                        "delete-list"));
+                                                                                        "delete-list",
+                                                                                        "rename-list"));
 
     private static void printOptions() {
         System.out.println("Here are the available functions");
@@ -21,7 +22,7 @@ class App {
         System.out.println("-> task-cli new-list <name> - Create a new task list");
         System.out.println("-> task-cli task-list - List your task lists");
         System.out.println("-> task-cli delete-list <name> - Delete a task list");
-        System.out.println("-> task-cli rename-list <name> - Rename a task lists");
+        System.out.println("-> task-cli rename-list <current name> <new name> - Rename a task lists");
         System.out.println();
         System.out.println("====================Task CLI \u00A9 Pearl Tech " + Year.now().getValue() + " ============");
     }
@@ -53,6 +54,19 @@ class App {
             System.out.println(counter++ + ". " + file.getName());
         }
         App.printFooter();
+    }
+
+    private static boolean checkForFile(File [] taskLists, String fileName) {
+        boolean fileExists = false;
+        
+        for (File taskList: taskLists) {
+            if (taskList.getName().equals(fileName)) {
+                fileExists = true;
+                break;
+            }
+        }
+
+        return fileExists;
     }
 
     public static void main(String [] args) {
@@ -146,23 +160,19 @@ class App {
             
                 if (taskListFolder.exists()) {
                     File [] taskLists = getTaskLists(taskListFolder);
-                    boolean fileExists = false;
-
-                    for (File taskList: taskLists) {
-                        if (taskList.getName().equals(args[1] + ".json")) {
-                            fileExists = true;
-                            break;
-                        }
-                    }
+                    boolean fileExists = checkForFile(taskLists, args[1]);
 
                     if (fileExists) {
-                        File fileToDelete = new File(taskListFolder.getPath() + "/" + args[1] + ".json");
+                        String fileName = args[1];
+                        if (!fileName.contains(".json")) {
+                            fileName = fileName + ".json";
+                        }
+                        File fileToDelete = new File(taskListFolder.getPath() + "/" + fileName);
 
                         System.out.print("Are you sure you want to delete this task list " + "(" + args[0] +"): -- Y/N: ");
                         String response = scan.nextLine();
 
                         if (response.toLowerCase().equals("y")) {
-                            System.out.println(fileToDelete.getPath());
                             fileToDelete.delete();
                         }
 
@@ -173,6 +183,31 @@ class App {
                 } else {
                     System.out.println("You do not have any tasks");
                 }
+            }
+        } else if (args.length > 0 && args[0].equals("rename-list")) {
+            if (args.length < 3) {
+                System.out.println("Please ensure to add both the old list name and the new list name :)");
+            } else if (args.length > 3) {
+                System.out.println("Please make sure the task list names are in quotes :)");
+            } else {
+                // Check if the list exists
+                File taskListFolder = new File(App.getUserHomeFolder(), "task-list");
+                String fileName = args[1];
+                if (!fileName.contains(".json")) {
+                    fileName = fileName + ".json";
+                }
+            
+                if (taskListFolder.exists()) {
+                    boolean fileExists = checkForFile(getTaskLists(taskListFolder), fileName);
+                    if (fileExists) {
+                        System.out.println("Renaming...");
+                    } else {
+                        System.out.println("The file does not exist");
+                    }
+                } else {
+                    System.out.println("You do not have any task created");
+                }
+                // Rename the list
             }
         }
 
