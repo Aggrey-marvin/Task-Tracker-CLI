@@ -23,6 +23,7 @@ class App {
         System.out.println("-> task-cli task-list - List your task lists");
         System.out.println("-> task-cli delete-list <name> - Delete a task list");
         System.out.println("-> task-cli rename-list <current name> <new name> - Rename a task lists");
+        System.out.println("-> task-cli add-task <task list name> <task name> - Add a task to a task list");
         System.out.println();
         System.out.println("====================Task CLI \u00A9 Pearl Tech " + Year.now().getValue() + " ============");
     }
@@ -196,13 +197,29 @@ class App {
                 if (!fileName.contains(".json")) {
                     fileName = fileName + ".json";
                 }
+
+                String newFileName = args[2];
+                if (!newFileName.contains(".json")) {
+                    newFileName = newFileName + ".json";
+                }
             
                 if (taskListFolder.exists()) {
                     boolean fileExists = checkForFile(getTaskLists(taskListFolder), fileName);
                     if (fileExists) {
-                        System.out.println("Renaming...");
+                        File currentFile = new File(getUserHomeFolder() + "/task-list/" + fileName);
+                        File newFile = new File(getUserHomeFolder() + "/task-list/" + newFileName);
+
+                        boolean result = currentFile.renameTo(newFile);
+
+                        if (result) {
+                            System.out.println("The file " + args[1] + " has been successfully renamed to " + args[2]);
+                        } else {
+                            System.out.println("The operation failed :(");
+                        }
                     } else {
                         System.out.println("The file does not exist");
+                        File [] taskLists = getTaskLists(taskListFolder);
+                        printTaskLists(taskLists);
                     }
                 } else {
                     System.out.println("You do not have any task created");
