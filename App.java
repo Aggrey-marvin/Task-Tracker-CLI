@@ -52,7 +52,7 @@ class App {
 
         int counter = 1;
         for (File file: taskLists) {
-            System.out.println(counter++ + ". " + file.getName());
+            System.out.println(counter++ + ". " + file.getName().replace(".json", ""));
         }
         App.printFooter();
     }
@@ -68,6 +68,23 @@ class App {
         }
 
         return fileExists;
+    }
+
+    private static boolean checkForFile(String fileName) {
+        File taskListFolder = new File(App.getUserHomeFolder(), "task-list");
+        if (!fileName.contains(".json")) {
+            fileName = fileName + ".json";
+        }
+        boolean fileExists = checkForFile(getTaskLists(taskListFolder), fileName);
+
+        return fileExists;
+    }
+
+    private static String processFileName(String rawFileName) {
+        if (!rawFileName.contains(".json")) {
+            return rawFileName + ".json";
+        } 
+        return rawFileName;
     }
 
     public static void main(String [] args) {
@@ -225,6 +242,21 @@ class App {
                     System.out.println("You do not have any task created");
                 }
                 // Rename the list
+            }
+        } else if (args.length > 0 && args[0].equals("add-task")) {
+            if (args.length < 3) {
+                System.out.println("Please ensure to add both the old list name and the new list name :)");
+            } else if (args.length > 3) {
+                System.out.println("Please make sure the task list names are in quotes :)");
+            } else {
+                // Check whether the task list exists
+                boolean fileExists = checkForFile(args[1]);
+                String fileName = processFileName(args[1]);
+                File currentFile = new File(getUserHomeFolder() + "/task-list/" + fileName);
+                // Check for the last item's id in the the list
+
+                // Create and new task
+                // Write the new task to the file
             }
         }
 
