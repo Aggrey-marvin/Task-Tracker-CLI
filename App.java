@@ -9,12 +9,17 @@ import java.io.IOException;
 import java.nio.file.attribute.FileOwnerAttributeView;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.Scanner;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 class App {
     private static ArrayList<String> expectedArgs = new ArrayList<String>(Arrays.asList("new-list", 
                                                                                         "task-list", 
                                                                                         "delete-list",
-                                                                                        "rename-list"));
+                                                                                        "rename-list",
+                                                                                        "view-task-list",
+                                                                                        "add-task"));
 
     private static void printOptions() {
         System.out.println("Here are the available functions");
@@ -23,7 +28,7 @@ class App {
         System.out.println("-> task-cli task-list - List your task lists");
         System.out.println("-> task-cli delete-list <name> - Delete a task list");
         System.out.println("-> task-cli rename-list <current name> <new name> - Rename a task lists");
-        System.out.println("-> task-cli add-task <task list name> <task name> - Add a task to a task list");
+        System.out.println("-> task-cli add-task <task list name> '<task name>'' - Add a task to a task list");
         System.out.println();
         System.out.println("====================Task CLI \u00A9 Pearl Tech " + Year.now().getValue() + " ============");
     }
